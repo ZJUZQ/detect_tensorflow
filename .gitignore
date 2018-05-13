@@ -1,0 +1,5 @@
+data/*.tar
+data/VOCdevkit
+data/*.record
+
+*.pyc
