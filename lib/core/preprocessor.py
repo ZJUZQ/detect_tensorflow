@@ -69,7 +69,7 @@ from lib.core import preprocessor_cache
 from lib.core import standard_fields as fields
 from lib.utils import shape_utils
 
-
+  
 def _apply_with_random_selector(x,
 								func,
 								num_cases,
@@ -85,9 +85,9 @@ def _apply_with_random_selector(x,
 		func: Python function to apply.
 		num_cases: Python int32, number of cases to sample sel from.
 		preprocess_vars_cache: PreprocessorCache object that records previously
-		           performed augmentations. Updated in-place. If this
-		           function is called multiple times with the same
-		           non-null cache, it will perform deterministically.
+		     performed augmentations. Updated in-place. If this
+		     function is called multiple times with the same
+		     non-null cache, it will perform deterministically.
 		key: variable identifier for preprocess_vars_cache.
 
 	Returns:
@@ -97,13 +97,13 @@ def _apply_with_random_selector(x,
 	generator_func = functools.partial(
 		func=tf.random_uniform, [], maxval=num_cases, dtype=tf.int32)
 	rand_sel = _get_or_create_preprocess_rand_vars(
-					generator_func, preprocessor_cache.PreprocessorCache.SELECTOR,
-					preprocess_vars_cache, key)
+		generator_func, preprocessor_cache.PreprocessorCache.SELECTOR,
+		preprocess_vars_cache, key)
 
 	# Pass the real x only to one of the func calls.
 	return control_flow_ops.merge([func(
 		control_flow_ops.switch(x, tf.equal(rand_sel, case))[1], case)
-		                 for case in range(num_cases)])[0]
+	           for case in range(num_cases)])[0]
 
 
 def _apply_with_random_selector_tuples(x,
